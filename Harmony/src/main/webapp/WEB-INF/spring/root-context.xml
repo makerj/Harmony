@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- JDBC -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/" />
+		<property name="user" value="tonic" />
+		<property name="password" value="tonic12345" />
+	</bean>
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate" scope="prototype">
+		<constructor-arg ref="dataSource" />
+	</bean>
+</beans>
