@@ -15,6 +15,11 @@ public class WorkspaceController {
 	@Autowired
 	private WorkspaceService service;
 	
+	@RequestMapping(value = "/newProject", method = RequestMethod.GET)
+	public String newProject(Model model) {
+		return "redirect:/workspace?id=" + service.newWorkspace();
+	}
+	
 	@RequestMapping(value = "/workspace", method = RequestMethod.GET)
 	public String workspace(HttpServletRequest request, Model model) {
 		long id;
@@ -22,7 +27,7 @@ public class WorkspaceController {
 			id = Long.parseLong(request.getParameter("id"));
 		} catch (Exception e) {e.printStackTrace(); return "redirect:/";}
 
-		model.addAttribute("id", id);
+		model.addAttribute("workspace_id", id);
 		model.addAttribute("puzzleSet", service.getPuzzleSet(id));
 		return "main";
 	}

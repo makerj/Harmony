@@ -18,7 +18,11 @@ public class WorkspaceService {
 	@Autowired
 	public WorkspaceService(WorkspaceDAO dao) {
 		this.dao = dao;
-		this.ID_COUNTTER = new AtomicLong(dao.getLastID());
+		this.ID_COUNTTER = new AtomicLong(dao.getLastID()+1);
+	}
+
+	public long createWorkspace() {
+		return newWorkspace();
 	}
 	
 	public long newWorkspace() {
@@ -27,12 +31,16 @@ public class WorkspaceService {
 		logger.debug("Current workspace ID: " + id);
 		return id;
 	}
-
+	
+	public void deleteWorkspace(long id) {
+		dao.deleteWorkspace(id);
+	}
+	
 	public String getPuzzleSet(long id) {
 		return dao.getPuzzleSet(id);
 	}
 	
-	public void putPuzzleSet(long id, String puzzleSet) {
+	public void updatePuzzleSet(long id, String puzzleSet) {
 		dao.updateWorkspace(id, puzzleSet);
 	}
 }

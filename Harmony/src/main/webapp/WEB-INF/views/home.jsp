@@ -50,7 +50,7 @@
                     <p>Harmony는 화성학 교육을 위해 만들어진 소프트웨어입니다. 여러분은 Harmony를 통해 다양한 음악 조각들을 갖고노는 게임을 하면서 <b>코드</b>, <b>음정</b>, 그리고 <b>세율</b>에 대해 공부할 수 있습니다</p>
                 </div>
                 <a class="btn btn-default pull-right btn-lg" href="#open" data-toggle="modal">불러오기</a>
-                <a class="btn pull-right btn-lg btn-info" style="margin-right: 1em" href="${pageContext.request.contextPath}/newProejct">처음부터</a>
+                <a class="btn pull-right btn-lg btn-info" style="margin-right: 1em" href="${pageContext.request.contextPath}/newProject">처음부터</a>
             </div>
             <div class="modal fade pg-show-modal" id="open" tabindex="-1" role="dialog" aria-hidden="true"> 
                 <div class="modal-dialog"> 
