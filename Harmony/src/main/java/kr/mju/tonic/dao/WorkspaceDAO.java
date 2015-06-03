@@ -15,7 +15,7 @@ public class WorkspaceDAO {
 	
 	public void createWorkspace(long id) {
 		try {
-			jt.update("INSERT INTO harmony.workspace VALUES(?,''", new Object[]{id});
+			jt.update("INSERT INTO harmony.workspace VALUES(?,'')", new Object[]{id});
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
