@@ -12,6 +12,8 @@ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
 0. You just DO WHAT THE FUCK YOU WANT TO. -->
+<%@page import="kr.mju.tonic.webhelper.Puzzles"%>
+<%@page import="kr.mju.tonic.webhelper.Puzzle"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -81,7 +83,10 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 </div>
 <!-- Hidden Elements -->
 <div id="HiddenElements" style="display: none">
-    <div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div> </div>
+    <div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div></div>
+    <%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {%>
+    	<div data-audio-file="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"><div class="puzzleImg"></div></div>
+    <%}%>
 </div>
 <!-- Script -->
 <script src="${pageContext.request.contextPath}/resources/assets/js/jquery.min.js"></script>

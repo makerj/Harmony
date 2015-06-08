@@ -30,7 +30,7 @@ var Game = (function() {
 
         });
         $('#playBtn').click(function() {
-            var playImg = "resource/img/main/playBtn.png", stopImg = "resource/img/main/stopBtn.png";
+            var playImg = "resources/img/main/playBtn.png", stopImg = "resources/img/main/stopBtn.png";
             // Play
             if ($('#playBtn').attr("src") == playImg) {
                 $('#playBtn').attr("src", stopImg);
