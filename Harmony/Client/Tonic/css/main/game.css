@@ -1,0 +1,22 @@
+.puzzle {
+    display: inline-block;
+    position: absolute;
+    width: 6vw;
+    height: 6vw;
+}
+
+.puzzleImg {
+    display: inline-block;
+    position:  absolute;
+    top: -0.525vw;
+    left: -0.525vw;
+    width: 7.5vw;
+    height: 7.5vw;
+    background-image: url(../../resource/img/main/puzzle_green.png);
+    background-size: cover;
+}
+
+.puzzle_prototype {
+    position:  fixed;
+}
+

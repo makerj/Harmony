@@ -1,0 +1,97 @@
+<!--
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+Version 2, December 2004
+
+Copyright (C) 2015 JunHui Lee <ohenwkgdj@gmail.com>
+
+Everyone is permitted to copy and distribute verbatim or modified
+copies of this license document, and changing it is allowed as long
+as the name is changed.
+
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+0. You just DO WHAT THE FUCK YOU WANT TO. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Meta Information -->
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" type="image/x-icon" href="resource/img/favicon.ico"/>
+    <title>Harmony</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/main/font.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main/common.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main/game.css"/>
+</head>
+<body>
+<div class="root">
+    <div class="title fontSize3 bold"><p style="display: inline;">Awesome Music Project</p></div>
+    <div class="center">
+        <div class="playground">
+
+        </div>
+
+        <div id="drawer" class="drawer fontSize3 bold ">
+            <div id="properties">
+                <div class="properties_title"></div>
+                <div class="properties_content">
+                    <label>Overdrive</label>
+                    <input type="range" name="overdrive" min="0" max="100" step="1" value="0"/>
+                    <label>Filter</label>
+                    <input type="range" name="filter" min="0" max="100" step="1" value="0"/>
+                    <label>Cabinet</label>
+                    <input type="range" name="cabinet" min="0" max="100" step="1" value="0"/>
+                    <label>Delay</label>
+                    <input type="range" name="delay" min="0" max="100" step="1" value="0"/>
+                    <label>Convolver</label>
+                    <input type="range" name="convolver" min="0" max="100" step="1" value="0"/>
+                    <label>Compressor</label>
+                    <input type="range" name="compressor" min="0" max="100" step="1" value="0"/>
+                    <label>WahWah</label>
+                    <input type="range" name="wahwah" min="0" max="100" step="1" value="0"/>
+                    <label>Tremolo</label>
+                    <input type="range" name="tremolo" min="0" max="100" step="1" value="0"/>
+                    <label>Phaser</label>
+                    <input type="range" name="phaser" min="0" max="100" step="1" value="0"/>
+                    <label>Chorus</label>
+                    <input type="range" name="chorus" min="0" max="100" step="1" value="0"/>
+                </div>
+            </div>
+
+            <div id="puzzles">
+                <div class="puzzles_title"></div>
+                <div class="puzzles_content"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="playBar">
+        <img id="skipBtn_backward" src="resource/img/main/skipBtn_backward.png" alt="skipBtn_backward"/>
+        <img id="playBtn" src="resource/img/main/playBtn.png" alt="playBtn"/>
+        <img id="skipBtn_forward" src="resource/img/main/skipBtn_forward.png" alt="skipBtn_forward"/>
+    </div>
+</div>
+<!-- Hidden Elements -->
+<div id="HiddenElements" style="display: none">
+    <div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div> </div>
+    <audio id="audio1" code="c" src="resource/audio/audio1.mp3"></audio>
+    <audio id="audio2" code="e" src="resource/audio/audio2.mp3"></audio>
+    <audio id="audio3" code="d" src="resource/audio/audio3.mp3"></audio>
+    <audio id="audio4" code="a" src="resource/audio/audio4.mp3"></audio>
+    <audio id="audio5" code="b" src="resource/audio/audio5.mp3"></audio>
+</div>
+<!-- Script -->
+<script src="js/jquery-1.11.2.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script> <!-- For mobile Drag&Drop support -->
+
+<script src="js/util.js"></script>
+<script src="js/main/types.js"></script>
+<script src="js/main/game.js"></script>
+</body>
+</html>
