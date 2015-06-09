@@ -85,7 +85,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 <div id="HiddenElements" style="display: none">
     <div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div></div>
     <%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {%>
-    	<div data-audio-file="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"><div class="puzzleImg"></div></div>
+    	<audio data-audio-file="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
     <%}%>
 </div>
 <!-- Script -->

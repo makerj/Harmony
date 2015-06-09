@@ -64,15 +64,11 @@ var Puzzle = (function() {
             drag: function(event, ui) {
                 Util.enableSnappedEvent($(this), event, ui);
             },
-            snap: ".puzzle", // TODO Change snap target to appropriate specific puzzle
-            snapMode: "both",
+            snap: ".puzzleBox",
+            snapMode: "inner",
             snapped: function (event, ui) {
-                // TODO define procedure when puzzle snapped
-                var snapper = ui.snapElement.attr("id"); // Element which waiting in its position
-                var snappee = ui.helper.attr("id"); // Element which you dragging
-                console.log("'snapped' event occurred when> " + new Date().getTime() + "ms");
-                console.log("Snapper ID> " + snapper);
-                console.log("Snappee ID> " + snappee);
+                //var snapper = ui.snapElement.attr("id"); // Element which waiting in its position
+                //var snappee = ui.helper.attr("id"); // Element which you dragging
             }
         });
 
@@ -100,26 +96,47 @@ var Puzzle = (function() {
     }
 }());
 console.log("<Puzzle class initialized>");
-
-var Playground = (function(){
+var PuzzleBox = (function () {
     // Static Fields
     var INSTANCE;
-    // Fields ------------------------------------------------------------------------
-    var _Playground = function () {
-        this.state = "FINE";
+    var PUZZLE_BOX_LIST = {};
+    var STATE_EMPTY = -1;
+    var _PuzzleBox = function () {
+        this.puzzleID = STATE_EMPTY;
+        this.audioID = STATE_EMPTY;
     };
+    var init = function() {
+        $('.puzzleBox').each(function () {
+            var jThiz = $(this).data('id');
+            PUZZLE_BOX_LIST[jThiz] = new _PuzzleBox();
+            var thiz = PUZZLE_BOX_LIST[jThiz];
 
-    _Playground.prototype.addLine = function() {
-        $('<div class="line"></div>').hide().appendTo($('.playground')).show('slide',{direction: 'down'});
+            $(this).droppable({
+                accept: ":not(.puzzle_prototype)",
+                drop: function (event, ui) {
+                    if (thiz.puzzleID != STATE_EMPTY) return;
+                    thiz.puzzleID = ui.helper[0].id;
+                    console.log(ui.helper[0]);
+                },
+                out: function (event, ui) {
+                    if (thiz.puzzleID != ui.helper[0].id) return;
+                    thiz.puzzleID = STATE_EMPTY;
+                    console.log(PuzzleBox.getPuzzleBoxList());
+                }
+            });
+        });
+
     };
-
+    // Public Static Methods ---------------------------------------------------------
     return {
-        instance: function () {
-            return typeof INSTANCE == "undefined" ? (INSTANCE = new _Playground()) : INSTANCE;
+        init: function () {
+            init();
+        },
+        getPuzzleBoxList: function () {
+            return PUZZLE_BOX_LIST;
         }
     }
 }());
-
 /**
  * Class Drawer. implementation of drawer
  * Provides instance() public static method for singleton design */

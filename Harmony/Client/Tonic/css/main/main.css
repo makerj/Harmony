@@ -30,6 +30,7 @@ white rgba(255,255,255,0.95);
     width: 100vw;
     height: 85vh;
 }
+
 .playground {
     float: left;
     width: 80%;
@@ -37,12 +38,28 @@ white rgba(255,255,255,0.95);
     overflow-y: auto;
 }
 
-.line {
-    width: 100%;
-    height: 20%;
-    background-image: url('../../resource/img/main/line.png');
-    background-size: contain;
+.puzzleBoxWrap {
+    width: 40vw;
+    height: 40vw;
+    top: 1vw;
+    left: 20vw;
+    box-sizing: border-box;
+    position: relative;
 }
+
+.puzzleBox {
+    width:19.5%;
+    height:19.5%;
+    box-sizing: border-box;
+    float: left;
+    background: floralwhite;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgray;
+    margin-left: 0.5%;
+    margin-bottom: 0.5%;
+}
+
 .drawer {
     float: right;
     width: 20%;

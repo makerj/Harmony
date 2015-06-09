@@ -19,42 +19,76 @@ var Game = (function() {
         curPrototypeLastTop: 0,
         curPrototypeLastLeft: 0
     };
-    var drawer = Drawer.instance();
-    var playGround = Playground.instance();
+    var PLAYING = false;
+    var playImg = "resource/img/main/playBtn.png", stopImg = "resource/img/main/stopBtn.png";
 
+    var drawer = Drawer.instance();
     // Methods -----------------------------------------------------------------------
     var initPlayGround = function() {
         $('.playground').click(function() {drawer.unbindPuzzle();});
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-        playGround.addLine(); // TODO Remove this method testing code
-
-    };
-    var initPlayBar = function() {
-        $('#skipBtn_backward').click(function() {
-
-        });
-        $('#playBtn').click(function() {
-            var playImg = "resource/img/main/playBtn.png", stopImg = "resource/img/main/stopBtn.png";
-            // Play
-            if ($('#playBtn').attr("src") == playImg) {
-                $('#playBtn').attr("src", stopImg);
-                $('#audio1')[0].play(); // jQuery DOM wrapper doesn't support audio elements
+        PuzzleBox.init();
+            };
+            var initPlayBar = function() {
+                // Enable Audio end event chaining
+                $('audio').each(function () {
+                    $(this)[0].addEventListener('ended', function () {
+                        state.curPuzzleID += 1;
+                        playAudioAtLastPuzzle();
+                    });
+                });
+                // Backward Button
+                $('#skipBtn_backward').click(function() {
+                    if (!PLAYING) return;
+                    stopPlaying();
+                    state.curPuzzleID += -1;
+                    playAudioAtLastPuzzle();
+                });
+                // Play Button
+                $('#playBtn').click(function() {
+                    // Play
+                    if ($('#playBtn').attr("src") == playImg) {
+                        $('#playBtn').attr("src", stopImg);
+                        playAudioAtLastPuzzle();
+                    }
+                    // Stop
+                    else {
+                        $('#playBtn').attr("src", playImg);
+                        stopAndClearPlaying();
             }
-            // Stop
-            else {
-                $('#playBtn').attr("src", playImg);
-                $('#audio1')[0].pause();
-            }
         });
+        // Forward Button
         $('#skipBtn_forward').click(function() {
-
+            if (!PLAYING) return;
+            stopPlaying();
+            state.curPuzzleID += 1;
+            playAudioAtLastPuzzle();
         });
+    };
+    var stopAndClearPlaying = function () {
+        $('#playBtn').attr("src", playImg);
+        state.curPuzzleID = 0;
+        PLAYING = false;
+        stopPlaying();
+    };
+    var stopPlaying = function () {
+        $('audio').each(function () {
+            $(this)[0].pause();
+            $(this)[0].currentTime = 0;
+        });
+    };
+    var playAudioAtLastPuzzle = function () {
+        if (state.curPuzzleID >= 25) {
+            stopAndClearPlaying();
+            return;
+        }
+        var audioID = PuzzleBox.getPuzzleBoxList()[state.curPuzzleID].audioID;
+        audioID = 0;
+        if (audioID == -1) {
+            state.curPuzzleID += 1;
+            playAudioAtLastPuzzle();
+        } else {
+            $("audio[data-prototype-id='" + audioID + "']")[0].play();
+        }
     };
     var setCurPuzzle = function (puzzleObj) {
         state.curPuzzleID = puzzleObj.ID;
