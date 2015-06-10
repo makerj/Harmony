@@ -73,7 +73,12 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
             <%for (String e : Puzzles.generateDefaultPuzzleTitles()) {%>
             	<div data-song-title="<%=e%>" class="songContainer">
         			<div class="songTitle"><%=e%></div>
-        			<div class="songContents"></div>
+        			<div class="songContents">
+        			<%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {
+        				if (p.getSongTitle().equals(e)) {%>
+        				<div class="prototypePuzzle code<%=p.getCode()%>" data-prototype-id="<%=p.getPrototypeId()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>"></div>
+        			<%}}%>
+        			</div>
     			</div>
     		<%}%>
             </div>
@@ -94,7 +99,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
         <div class="songContents"></div>
     </div>
     <%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {%>
-    	<audio data-song-title="<%=p.getSongTitle()%>" src="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
+    	<audio src="<%=p.getAudioFileURL()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
     <%}%>
 </div>
 <!-- Script -->

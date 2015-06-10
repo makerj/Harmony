@@ -16,126 +16,73 @@
 /**
  * Class Puzzle. implementation of puzzle
  * Provides newPrototype(audioObject, code), fromPrototype(puzzleObj) public static methods */
-var Puzzle = (function() {
-    // Static Fields
-    var ID_SEEDER = 0;
-    var PUZZLE_LIST = [];
-
-    // Constructor -------------------------------------------------------------------
-    var _Puzzle = function (audioObject, code, isPrototype) {
-        this.ID= ID_SEEDER;
-        this.audioSrc = audioObject;
-        this.code = code;
-        this.isPrototype = isPrototype;
-        this.DOMObject = (function () {return $('#puzzleBase').clone(true).attr("id", String(ID_SEEDER))[0];}());
-        this.overdrive  = 0;
-        this.filter  = 0;
-        this.cabinet  = 0;
-        this.delay  = 0;
-        this.convolver  = 0;
-        this.compressor  = 0;
-        this.wahwah  = 0;
-        this.tremolo  = 0;
-        this.phaser  = 0;
-        this.chorus  = 0;
-        PUZZLE_LIST.push(this);
-        ID_SEEDER++;
-    };
-    var ordinaryPuzzle = function (prototypePuzzleObj, offset, container) {
-        // Set attributes
-        var newPuzzle = jQuery.extend(true, {}, prototypePuzzleObj); // clone()
-        newPuzzle.ID = ID_SEEDER;
-        newPuzzle.isPrototype = false;
-        newPuzzle.DOMObject = $('#puzzleBase')[0].cloneNode(true);
-        newPuzzle.DOMObject.setAttribute('id', String(ID_SEEDER));
-        newPuzzle.DOMObject.className = 'puzzle';
-        newPuzzle.DOMObject.style.top = offset.top + 'px';
-        newPuzzle.DOMObject.style.left = offset.left + 'px';
-        newPuzzle.DOMObject.style.display = 'none';
-
-        // IMPORTANT DOMObject should be appended as container's child before being draggable
-        // Because 'draggable' has position issue
-        container[0].appendChild(newPuzzle.DOMObject);
-        $(newPuzzle.DOMObject).fadeIn();
-
-        // Set Draggable
-        $(newPuzzle.DOMObject).draggable({
-            containment: ".playground",
-            drag: function(event, ui) {
-                Util.enableSnappedEvent($(this), event, ui);
-            },
-            snap: ".puzzleBox",
-            snapMode: "inner",
-            snapped: function (event, ui) {
-                //var snapper = ui.snapElement.attr("id"); // Element which waiting in its position
-                //var snappee = ui.helper.attr("id"); // Element which you dragging
-            }
-        });
-
-        // Register onClick listener
-        $(newPuzzle.DOMObject).click(function () {
-            Game.setPuzzle(newPuzzle);
-            return false; // Disable event bubbling
-        });
-
-        PUZZLE_LIST.push(newPuzzle);
-        ID_SEEDER++;
-
-        return newPuzzle;
-    };
-    // Public Methods ----------------------------------------------------------------
-    _Puzzle.prototype.play = function () {this.audioSrc.play();};
-    _Puzzle.prototype.pause = function () {this.audioSrc.pause();};
-    _Puzzle.prototype.stop = function () {this.audioSrc.pause();this.audioSrc.currentTime=0;};
-
-    // Public Static Methods ---------------------------------------------------------
-    return {
-        newPrototype: function (audioObject, code) {return new _Puzzle(audioObject, code, true);},
-        fromPrototype: ordinaryPuzzle,
-        findPuzzleById: function (id) {return PUZZLE_LIST[id];}
-    }
-}());
-console.log("<Puzzle class initialized>");
 var PuzzleBox = (function () {
     // Static Fields
     var INSTANCE;
     var PUZZLE_BOX_LIST = {};
-    var STATE_EMPTY = -1;
     var _PuzzleBox = function () {
-        this.puzzleID = STATE_EMPTY;
-        this.audioID = STATE_EMPTY;
-        this.getAudioID = function () {return this.audioID;}
+        this.prototypeId = DEFINES.NOT_SET;
     };
-    var init = function() {
+    var init = function(clearPuzzleBoxList) {
         $('.puzzleBox').each(function () {
-            var jThiz = $(this).data('id');
-            PUZZLE_BOX_LIST[jThiz] = new _PuzzleBox();
-            var thiz = PUZZLE_BOX_LIST[jThiz];
+            var jThiz = $(this);
+            if (clearPuzzleBoxList) PUZZLE_BOX_LIST[jThiz.data('id')] = new _PuzzleBox();
+            var thiz = PUZZLE_BOX_LIST[jThiz.data('id')];
 
-            $(this).droppable({
-                accept: ":not(.puzzle_prototype)",
+            jThiz.click(function () {
+                thiz.prototypeId = DEFINES.NOT_SET;
+                jThiz.text('');
+                jThiz.attr('class', 'puzzleBox ui-droppable');
+            });
+            jThiz.droppable({
                 drop: function (event, ui) {
-                    if (thiz.puzzleID != STATE_EMPTY) return;
-                    thiz.puzzleID = ui.helper[0].id;
-                    console.log(ui.helper[0]);
-                },
-                out: function (event, ui) {
-                    if (thiz.puzzleID != ui.helper[0].id) return;
-                    thiz.puzzleID = STATE_EMPTY;
-                    console.log(PuzzleBox.getPuzzleBoxList());
+                    var helperDom = ui.helper[0];
+                    thiz.prototypeId = helperDom.getAttribute('data-prototype-id');
+                    jThiz.text(helperDom.textContent);
+                    jThiz.addClass('code'+helperDom.getAttribute('data-code'));
                 }
             });
-        });
+        })
+    };
 
+    var getPuzzleBoxList = function () {return PUZZLE_BOX_LIST;};
+    var setPuzzleBoxList = function (obj) {
+        // Restore PuzzleBoxList Object
+        PUZZLE_BOX_LIST = obj;
+        init(false);
+        // Restore DOM
+        $('.puzzleBox').each(function () {
+            var boxID = $(this).data('id');
+            var prototypeID = PUZZLE_BOX_LIST[boxID].prototypeId;
+            if (prototypeID == DEFINES.NOT_SET) return;
+            var relatedPrototypePuzzle = findRelatedPrototypePuzzle(prototypeID);
+
+            $(this).text(relatedPrototypePuzzle.text());
+            $(this).attr('class', 'puzzleBox ui-droppable code'+relatedPrototypePuzzle.data('code'));
+        });
+    };
+    var findRelatedPrototypePuzzle = function (prototypeID) {
+        return $('.prototypePuzzle[data-prototype-id="' +prototypeID+ '"]');
     };
     // Public Static Methods ---------------------------------------------------------
     return {
-        init: function () {
-            init();
+        init: function () {init(true);},
+        getCode: function (listIndex) {
+             return findRelatedPrototypePuzzle(PUZZLE_BOX_LIST[listIndex].prototypeId).data('code');
         },
-        getPuzzleBoxList: function () {
-            return PUZZLE_BOX_LIST;
-        }
+        getBeginNote: function (listIndex) {
+            return findRelatedPrototypePuzzle(PUZZLE_BOX_LIST[listIndex].prototypeId).data('begin-note');
+        },
+        getEndNote: function (listIndex) {
+            return findRelatedPrototypePuzzle(PUZZLE_BOX_LIST[listIndex].prototypeId).data('end-note');
+        },
+        getPrototypeID: function (listIndex) {
+            return PUZZLE_BOX_LIST[listIndex].prototypeId;
+        },
+        getPuzzleBoxList: getPuzzleBoxList,
+        setPuzzleBoxList: setPuzzleBoxList,
+        getPuzzleBoxListJSON: function () {return JSON.stringify(getPuzzleBoxList())},
+        setPuzzleBoxListJSON: function (JSONObj) {setPuzzleBoxList(JSON.parse(JSONObj))}
     }
 }());
 /**
@@ -189,7 +136,6 @@ var Drawer = (function () {
         }
     }
 }());
-
 console.log("<Drawer class initialized>");
 
 console.log("<Types module initialized>");

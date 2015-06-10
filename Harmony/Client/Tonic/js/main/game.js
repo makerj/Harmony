@@ -62,10 +62,39 @@ var Game = (function() {
         });
     };
     var initDrawer = function () {
-
+        // 1. Generate Prototype Puzzles
+        $('.prototypePuzzle').each(function () {
+            $(this).draggable({
+                containment: 'songContents,.playground',
+                helper: 'clone'
+            });
+        });
+        // 2. Load workspace if possible
+        var savedState = $('#savedState').text();
+        if (savedState != "") PuzzleBox.setPuzzleBoxListJSON(savedState);
     };
-
+    var initShareButton = function () {
+        $('#shareButton').click(function () {
+            saveStateToServer(true);
+        });
+    };
     // Misc
+    var saveStateToServer = function (isShare) {
+        $.ajax({
+            type: "POST",
+            url: "saveWorkspace",
+            data: (function () {
+                $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON());
+                return $('#ajaxData').serialize();
+            }()),
+            success: function(data) {
+                if (isShare) prompt('Copy this URL', "http://makerj.synology.me:8080/tonic/workspace?id="+$('#workspace_id').val());
+            },
+            error: function(request) {
+                alert("Connecting failed. Check your internet connection");
+            }
+        });
+    };
     var stopAndClearPlaying = function () {
         $('#playBtn').attr("src", DEFINES.playImg);
         state.curPuzzleBoxIndex = 0;
@@ -73,22 +102,25 @@ var Game = (function() {
         stopPlaying();
     };
     var stopPlaying = function () {
+        $('.spaceBoot').removeClass('spaceBoot');
         $('audio').each(function () {
             $(this)[0].pause();
             $(this)[0].currentTime = 0;
         });
     };
     var playAudioAtLastPuzzle = function () {
+        $('.spaceBoot').removeClass('spaceBoot');
+        state.PLAYING = true;
         if (state.curPuzzleBoxIndex >= DEFINES.PUZZLE_BOX_SIZE) {
             stopAndClearPlaying();
             return;
         }
-        var audioID = PuzzleBox.getPuzzleBoxList()[state.curPuzzleBoxIndex].getAudioID();
-        audioID = 0;
+        var audioID = PuzzleBox.getPrototypeID(state.curPuzzleBoxIndex);
         if (audioID == -1) {
             state.curPuzzleBoxIndex += 1;
             playAudioAtLastPuzzle();
         } else {
+            $('.puzzleBox[data-id="'+state.curPuzzleBoxIndex+'"]').addClass('spaceBoot');
             $("audio[data-prototype-id='" + audioID + "']")[0].play();
         }
     };
@@ -98,6 +130,7 @@ var Game = (function() {
         initPlayGround();
         initPlayBar();
         initDrawer();
+        initShareButton();
     };
     return {
         init : init
