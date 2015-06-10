@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Puzzle {
 	private static final AtomicInteger prototypeIDSeeder = new AtomicInteger(0);
 	
+	private String songTitle;
 	private String audioFileURL;
 	private String code;
 	private int beginNote;
@@ -18,8 +19,8 @@ public class Puzzle {
 			throw new IllegalArgumentException("Audio file has illegal name: " + e.getName());
 		
 		StringTokenizer tok = new StringTokenizer(e.getName(), "_");
-		tok.nextToken(); // drop a song title
 		
+		songTitle = tok.nextToken();
 		audioFileURL = Defines.WEB_AUDIO_PATH + e.getName();
 		code = tok.nextToken();
 		beginNote = Integer.parseInt(tok.nextToken());
@@ -65,5 +66,13 @@ public class Puzzle {
 
 	public void setPrototypeId(int prototypeId) {
 		this.prototypeId = prototypeId;
+	}
+
+	public String getSongTitle() {
+		return songTitle;
+	}
+
+	public void setSongTitle(String songTitle) {
+		this.songTitle = songTitle;
 	}
 }

@@ -15,59 +15,61 @@
 var Game = (function() {
     // Fields ------------------------------------------------------------------------
     var state = {
-        curPuzzleID: 0,
+        curPuzzleBoxIndex: 0,
         curPrototypeLastTop: 0,
-        curPrototypeLastLeft: 0
+        curPrototypeLastLeft: 0,
+        PLAYING: false
     };
-    var PLAYING = false;
-    var playImg = "resource/img/main/playBtn.png", stopImg = "resource/img/main/stopBtn.png";
 
-    var drawer = Drawer.instance();
     // Methods -----------------------------------------------------------------------
     var initPlayGround = function() {
-        $('.playground').click(function() {drawer.unbindPuzzle();});
         PuzzleBox.init();
-            };
-            var initPlayBar = function() {
-                // Enable Audio end event chaining
-                $('audio').each(function () {
-                    $(this)[0].addEventListener('ended', function () {
-                        state.curPuzzleID += 1;
-                        playAudioAtLastPuzzle();
-                    });
-                });
-                // Backward Button
-                $('#skipBtn_backward').click(function() {
-                    if (!PLAYING) return;
-                    stopPlaying();
-                    state.curPuzzleID += -1;
-                    playAudioAtLastPuzzle();
-                });
-                // Play Button
-                $('#playBtn').click(function() {
-                    // Play
-                    if ($('#playBtn').attr("src") == playImg) {
-                        $('#playBtn').attr("src", stopImg);
-                        playAudioAtLastPuzzle();
-                    }
-                    // Stop
-                    else {
-                        $('#playBtn').attr("src", playImg);
-                        stopAndClearPlaying();
+    };
+    var initPlayBar = function() {
+        // Enable Audio end event chaining
+        $('audio').each(function () {
+            $(this)[0].addEventListener('ended', function () {
+                state.curPuzzleBoxIndex += 1;
+                playAudioAtLastPuzzle();
+            });
+        });
+        // Backward Button
+        $('#skipBtn_backward').click(function() {
+            if (!state.PLAYING) return;
+            stopPlaying();
+            state.curPuzzleBoxIndex += -1;
+            playAudioAtLastPuzzle();
+        });
+        // Play Button
+        $('#playBtn').click(function() {
+            // Play
+            if ($('#playBtn').attr("src") == DEFINES.playImg) {
+                $('#playBtn').attr("src", DEFINES.stopImg);
+                playAudioAtLastPuzzle();
+            }
+            // Stop
+            else {
+                $('#playBtn').attr("src", DEFINES.playImg);
+                stopAndClearPlaying();
             }
         });
         // Forward Button
         $('#skipBtn_forward').click(function() {
-            if (!PLAYING) return;
+            if (!state.PLAYING) return;
             stopPlaying();
-            state.curPuzzleID += 1;
+            state.curPuzzleBoxIndex += 1;
             playAudioAtLastPuzzle();
         });
     };
+    var initDrawer = function () {
+
+    };
+
+    // Misc
     var stopAndClearPlaying = function () {
-        $('#playBtn').attr("src", playImg);
-        state.curPuzzleID = 0;
-        PLAYING = false;
+        $('#playBtn').attr("src", DEFINES.playImg);
+        state.curPuzzleBoxIndex = 0;
+        state.PLAYING = false;
         stopPlaying();
     };
     var stopPlaying = function () {
@@ -77,86 +79,28 @@ var Game = (function() {
         });
     };
     var playAudioAtLastPuzzle = function () {
-        if (state.curPuzzleID >= 25) {
+        if (state.curPuzzleBoxIndex >= DEFINES.PUZZLE_BOX_SIZE) {
             stopAndClearPlaying();
             return;
         }
-        var audioID = PuzzleBox.getPuzzleBoxList()[state.curPuzzleID].audioID;
+        var audioID = PuzzleBox.getPuzzleBoxList()[state.curPuzzleBoxIndex].getAudioID();
         audioID = 0;
         if (audioID == -1) {
-            state.curPuzzleID += 1;
+            state.curPuzzleBoxIndex += 1;
             playAudioAtLastPuzzle();
         } else {
             $("audio[data-prototype-id='" + audioID + "']")[0].play();
         }
     };
-    var setCurPuzzle = function (puzzleObj) {
-        state.curPuzzleID = puzzleObj.ID;
-        drawer.bindPuzzle(puzzleObj);
-    };
-    var spawnPrototypePuzzle = function() {
-        // 1. Generate prototype puzzle instance for each audio element
-        $("audio").each(function () {
-            var p = Puzzle.newPrototype($(this)[0], $(this).attr('code'));
-            drawer.registerPuzzle(p);
-            // TODO shuffle prototype puzzles at random offset
-            var pc = $('.puzzles_content');
-            p.DOMObject.style.top = (Math.random()*pc.height()*0.7 + Util.vh()*0.1) + 'px';
-            p.DOMObject.style.left = (Math.random()*pc.width()*0.7 + pc.offset().left) + 'px';
-
-        });
-        // 2. Enable draggable
-        $('.puzzle_prototype').draggable({
-            start: function () {
-                state.curPrototypeLastTop = $(this).offset().top;
-                state.curPrototypeLastLeft = $(this).offset().left;
-            },
-            stop: function () {
-                // User want to use this prototype puzzle
-                if (Util.contains($('.playground'), $(this))) {
-                    // DO NOT drop current offset yet. offset will be used for new puzzle
-                    var offset = $(this).offset();
-
-                    // Restore prototype's initial position
-                    $(this).css({
-                        top: state.curPrototypeLastTop,
-                        left: state.curPrototypeLastLeft
-                    });
-
-                    // Add new puzzle at the playground
-                    Puzzle.fromPrototype(
-                        Puzzle.findPuzzleById($(this).attr('id')),
-                        offset,
-                        $('.playground')
-                    );
-                }
-                // Prototype still in the drawer
-                else {
-                    // I think we have nothing to do here
-                    // hmm... containment needed for each code section?
-                }
-
-            }
-        });
-    };
-
+    // Publish public methods ---------------------------------------------------------
     var init = function() {
         console.log("Game::init Called");
         initPlayGround();
         initPlayBar();
-        spawnPrototypePuzzle();
-        drawer.unbindPuzzle(); // Set drawer context to puzzle selection mode
+        initDrawer();
     };
-
-    var isPlaying = function () {
-        return state.curPuzzleID != -1;
-    };
-
-    // Publish public methods ---------------------------------------------------------
     return {
-        init : init,
-        isPlaying : isPlaying,
-        setPuzzle: setCurPuzzle
+        init : init
     };
 }());
 console.log("<Game module initialized>");

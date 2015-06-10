@@ -37,55 +37,64 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 <div class="root">
     <div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p></div>
     <div class="center">
-        <div class="playground">
-
+		<div class="playground">
+            <div class="puzzleBoxWrap">
+                <div class="puzzleBox" data-id="0"></div>
+                <div class="puzzleBox" data-id="1"></div>
+                <div class="puzzleBox" data-id="2"></div>
+                <div class="puzzleBox" data-id="3"></div>
+                <div class="puzzleBox" data-id="4"></div>
+                <div class="puzzleBox" data-id="5"></div>
+                <div class="puzzleBox" data-id="6"></div>
+                <div class="puzzleBox" data-id="7"></div>
+                <div class="puzzleBox" data-id="8"></div>
+                <div class="puzzleBox" data-id="9"></div>
+                <div class="puzzleBox" data-id="10"></div>
+                <div class="puzzleBox" data-id="11"></div>
+                <div class="puzzleBox" data-id="12"></div>
+                <div class="puzzleBox" data-id="13"></div>
+                <div class="puzzleBox" data-id="14"></div>
+                <div class="puzzleBox" data-id="15"></div>
+                <div class="puzzleBox" data-id="16"></div>
+                <div class="puzzleBox" data-id="17"></div>
+                <div class="puzzleBox" data-id="18"></div>
+                <div class="puzzleBox" data-id="19"></div>
+                <div class="puzzleBox" data-id="20"></div>
+                <div class="puzzleBox" data-id="21"></div>
+                <div class="puzzleBox" data-id="22"></div>
+                <div class="puzzleBox" data-id="23"></div>
+                <div class="puzzleBox" data-id="24"></div>
+                <div class="clear"></div>
+            </div>
         </div>
 
         <div id="drawer" class="drawer fontSize3 bold ">
-            <div id="properties">
-                <div class="properties_title"></div>
-                <div class="properties_content">
-                    <label>Overdrive</label>
-                    <input type="range" name="overdrive" min="0" max="100" step="1" value="0"/>
-                    <label>Filter</label>
-                    <input type="range" name="filter" min="0" max="100" step="1" value="0"/>
-                    <label>Cabinet</label>
-                    <input type="range" name="cabinet" min="0" max="100" step="1" value="0"/>
-                    <label>Delay</label>
-                    <input type="range" name="delay" min="0" max="100" step="1" value="0"/>
-                    <label>Convolver</label>
-                    <input type="range" name="convolver" min="0" max="100" step="1" value="0"/>
-                    <label>Compressor</label>
-                    <input type="range" name="compressor" min="0" max="100" step="1" value="0"/>
-                    <label>WahWah</label>
-                    <input type="range" name="wahwah" min="0" max="100" step="1" value="0"/>
-                    <label>Tremolo</label>
-                    <input type="range" name="tremolo" min="0" max="100" step="1" value="0"/>
-                    <label>Phaser</label>
-                    <input type="range" name="phaser" min="0" max="100" step="1" value="0"/>
-                    <label>Chorus</label>
-                    <input type="range" name="chorus" min="0" max="100" step="1" value="0"/>
-                </div>
-            </div>
-
             <div id="puzzles">
-                <div class="puzzles_title"></div>
-                <div class="puzzles_content"></div>
+            <%for (String e : Puzzles.generateDefaultPuzzleTitles()) {%>
+            	<div data-song-title="<%=e%>" class="songContainer">
+        			<div class="songTitle"><%=e%></div>
+        			<div class="songContents"></div>
+    			</div>
+    		<%}%>
             </div>
         </div>
         <div class="clear"></div>
     </div>
     <div class="playBar">
-        <img id="skipBtn_backward" src="${pageContext.request.contextPath}/resources/img/main/skipBtn_backward.png" alt="skipBtn_backward"/>
-        <img id="playBtn" src="${pageContext.request.contextPath}/resources/img/main/playBtn.png" alt="playBtn"/>
-        <img id="skipBtn_forward" src="${pageContext.request.contextPath}/resources/img/main/skipBtn_forward.png" alt="skipBtn_forward"/>
+        <img id="skipBtn_backward" src="resource/img/main/skipBtn_backward.png" alt="skipBtn_backward"/>
+        <img id="playBtn" src="resource/img/main/playBtn.png" alt="playBtn"/>
+        <img id="skipBtn_forward" src="resource/img/main/skipBtn_forward.png" alt="skipBtn_forward"/>
     </div>
 </div>
 <!-- Hidden Elements -->
 <div id="HiddenElements" style="display: none">
-    <div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div></div>
+	<div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div> </div>
+    <div id="songContainerBase" data-song-title="" class="songContainer">
+        <div class="songTitle"></div>
+        <div class="songContents"></div>
+    </div>
     <%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {%>
-    	<audio data-audio-file="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
+    	<audio data-song-title="<%=p.getSongTitle()%>" src="<%=p.getAudioFileURL()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
     <%}%>
 </div>
 <!-- Script -->

@@ -104,6 +104,7 @@ var PuzzleBox = (function () {
     var _PuzzleBox = function () {
         this.puzzleID = STATE_EMPTY;
         this.audioID = STATE_EMPTY;
+        this.getAudioID = function () {return this.audioID;}
     };
     var init = function() {
         $('.puzzleBox').each(function () {
