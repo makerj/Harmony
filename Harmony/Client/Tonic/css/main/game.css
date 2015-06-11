@@ -21,6 +21,7 @@
 
 .prototypePuzzle {
     position:  relative;
+    box-sizing: border-box;
     display: inline-block;
     width: 7.8vw;
     height: 7.8vw;
@@ -28,11 +29,18 @@
     left:0.1vw;
 }
 
+.prototypePuzzle>p {
+    position: absolute;
+    left:0;right:0;top:0;bottom:0;
+    margin: auto;
+}
+
 .puzzleBox {
     width:19.5%;
     height:19.5%;
     box-sizing: border-box;
     float: left;
+    font-size: 3vh;
     background: floralwhite;
     border-style: solid;
     border-width: thin;

@@ -37,7 +37,12 @@ var Game = (function() {
         $('#skipBtn_backward').click(function() {
             if (!state.PLAYING) return;
             stopPlaying();
-            state.curPuzzleBoxIndex += -1;
+            for (var back = state.curPuzzleBoxIndex-1 ; back >= 0 ; --back)
+                if (PuzzleBox.getPrototypeID(back) != -1)  {
+                    state.curPuzzleBoxIndex = back;
+                    break;
+                }
+
             playAudioAtLastPuzzle();
         });
         // Play Button
@@ -64,19 +69,25 @@ var Game = (function() {
     var initDrawer = function () {
         // 1. Generate Prototype Puzzles
         $('.prototypePuzzle').each(function () {
+            var jThiz = $(this);
+            // Makes the prototype puzzle click-able so that player can check which sound will be played
+            $(this).click(function () {
+                $('audio[data-prototype-id="'+jThiz.data('prototype-id')+'"]').clone()[0].play();
+            });
             $(this).draggable({
-                containment: 'songContents,.playground',
+                containment: '.songContents, .playground',
                 helper: 'clone'
             });
         });
-        // 2. Load workspace if possible
-        var savedState = $('#savedState').text();
-        if (savedState != "") PuzzleBox.setPuzzleBoxListJSON(savedState);
     };
     var initShareButton = function () {
         $('#shareButton').click(function () {
             saveStateToServer(true);
         });
+    };
+    var loadWorkspace = function () {
+        var savedState = $('#savedState').val();
+        if (savedState != "") PuzzleBox.setPuzzleBoxListJSON(savedState);
     };
     // Misc
     var saveStateToServer = function (isShare) {
@@ -111,7 +122,7 @@ var Game = (function() {
     var playAudioAtLastPuzzle = function () {
         $('.spaceBoot').removeClass('spaceBoot');
         state.PLAYING = true;
-        if (state.curPuzzleBoxIndex >= DEFINES.PUZZLE_BOX_SIZE) {
+        if (state.curPuzzleBoxIndex < 0 || state.curPuzzleBoxIndex >= DEFINES.PUZZLE_BOX_SIZE) {
             stopAndClearPlaying();
             return;
         }
@@ -131,6 +142,7 @@ var Game = (function() {
         initPlayBar();
         initDrawer();
         initShareButton();
+        loadWorkspace();
     };
     return {
         init : init

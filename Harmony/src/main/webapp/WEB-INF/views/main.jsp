@@ -35,35 +35,13 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 </head>
 <body>
 <div class="root">
-    <div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p></div>
+    <div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p> <div style="float: right"><input id="shareButton" type="button" value="Save&amp;Share"> </div></div>
     <div class="center">
 		<div class="playground">
             <div class="puzzleBoxWrap">
-                <div class="puzzleBox" data-id="0"></div>
-                <div class="puzzleBox" data-id="1"></div>
-                <div class="puzzleBox" data-id="2"></div>
-                <div class="puzzleBox" data-id="3"></div>
-                <div class="puzzleBox" data-id="4"></div>
-                <div class="puzzleBox" data-id="5"></div>
-                <div class="puzzleBox" data-id="6"></div>
-                <div class="puzzleBox" data-id="7"></div>
-                <div class="puzzleBox" data-id="8"></div>
-                <div class="puzzleBox" data-id="9"></div>
-                <div class="puzzleBox" data-id="10"></div>
-                <div class="puzzleBox" data-id="11"></div>
-                <div class="puzzleBox" data-id="12"></div>
-                <div class="puzzleBox" data-id="13"></div>
-                <div class="puzzleBox" data-id="14"></div>
-                <div class="puzzleBox" data-id="15"></div>
-                <div class="puzzleBox" data-id="16"></div>
-                <div class="puzzleBox" data-id="17"></div>
-                <div class="puzzleBox" data-id="18"></div>
-                <div class="puzzleBox" data-id="19"></div>
-                <div class="puzzleBox" data-id="20"></div>
-                <div class="puzzleBox" data-id="21"></div>
-                <div class="puzzleBox" data-id="22"></div>
-                <div class="puzzleBox" data-id="23"></div>
-                <div class="puzzleBox" data-id="24"></div>
+            <%for (int i = 0; i < 25; ++i) {%>
+                <div class="puzzleBox" data-id="<%=i%>"></div>
+            <%}%>
                 <div class="clear"></div>
             </div>
         </div>
@@ -76,7 +54,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
         			<div class="songContents">
         			<%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {
         				if (p.getSongTitle().equals(e)) {%>
-        				<div class="prototypePuzzle code<%=p.getCode()%>" data-prototype-id="<%=p.getPrototypeId()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>"></div>
+        				<div class="prototypePuzzle code<%=p.getCode()%>" data-prototype-id="<%=p.getPrototypeId()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>"><p class="fontSize3">BEG:<%=p.getBeginNote()%><br>END:<%=p.getEndNote()%></p></div>
         			<%}}%>
         			</div>
     			</div>
@@ -86,18 +64,17 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
         <div class="clear"></div>
     </div>
     <div class="playBar">
-        <img id="skipBtn_backward" src="resource/img/main/skipBtn_backward.png" alt="skipBtn_backward"/>
-        <img id="playBtn" src="resource/img/main/playBtn.png" alt="playBtn"/>
-        <img id="skipBtn_forward" src="resource/img/main/skipBtn_forward.png" alt="skipBtn_forward"/>
+        <img id="skipBtn_backward" src="resources/img/main/skipBtn_backward.png" alt="skipBtn_backward"/>
+        <img id="playBtn" src="resources/img/main/playBtn.png" alt="playBtn"/>
+        <img id="skipBtn_forward" src="resources/img/main/skipBtn_forward.png" alt="skipBtn_forward"/>
     </div>
 </div>
 <!-- Hidden Elements -->
 <div id="HiddenElements" style="display: none">
-	<div id="puzzleBase" class="puzzle puzzle_prototype"><div class="puzzleImg"></div> </div>
-    <div id="songContainerBase" data-song-title="" class="songContainer">
-        <div class="songTitle"></div>
-        <div class="songContents"></div>
-    </div>
+	<form id="ajaxData" action="saveWorkspace" method="post">
+        <input id="workspace_id" name="workspace_id" type="hidden" value='${workspace_id}'>
+        <input id="savedState" name="savedState" type="hidden" value='${savedState}'>
+    </form>
     <%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {%>
     	<audio src="<%=p.getAudioFileURL()%>" data-prototype-id="<%=p.getPrototypeId()%>"></audio>
     <%}%>
@@ -107,6 +84,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 <script src="${pageContext.request.contextPath}/resources/assets/js/jquery-ui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/assets/js/jquery.ui.touch-punch.min.js"></script> <!-- For mobile Drag&Drop support -->
 
+<script src="${pageContext.request.contextPath}/resources/js/defines.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/util.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main/types.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main/game.js"></script>

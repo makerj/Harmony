@@ -68,7 +68,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
                 <div data-song-title="꽃밭에서" class="songContainer">
                     <div class="songTitle">꽃밭에서</div>
                     <div class="songContents">
-                        <div class="prototypePuzzle codeC" data-prototype-id="16" data-code="C" data-begin-note="24" data-end-note="24"></div>
+                        <div class="prototypePuzzle codeC" data-prototype-id="16" data-code="C" data-begin-note="24" data-end-note="24"><p class="fontSize3">BEG:24<br>END:24</p></div>
                         <div class="prototypePuzzle codeC" data-prototype-id="17" data-code="C" data-begin-note="24" data-end-note="24"></div>
                         <div class="prototypePuzzle codeC" data-prototype-id="18" data-code="C" data-begin-note="24" data-end-note="28"></div>
                         <div class="prototypePuzzle codeC" data-prototype-id="19" data-code="C" data-begin-note="26" data-end-note="24"></div>
@@ -169,13 +169,10 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 </div>
 <!-- Hidden Elements -->
 <div id="HiddenElements" class="hidden">
-    <form id="ajaxData">
-        <input id="workspace_id" type="hidden" value="">
-        <input id="savedState" type="hidden" value="">
+    <form id="ajaxData" action="saveWorkspace" method="post">
+        <input id="workspace_id" name="workspace_id" type="hidden" value="">
+        <input id="savedState" name="savedState" type="hidden" value="">
     </form>
-
-    <div id="puzzleBase" class="puzzle prototypePuzzle"><div class="puzzleImg"></div> </div>
-
     <audio src="resource/audio/고향의봄_C_24_24_08.mp3" data-prototype-id="0"></audio>
     <audio src="resource/audio/고향의봄_C_24_24_16.mp3" data-prototype-id="1"></audio>
     <audio src="resource/audio/고향의봄_C_26_26_01.mp3" data-prototype-id="2"></audio>

@@ -1,6 +1,9 @@
 package kr.mju.tonic;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import kr.mju.tonic.service.WorkspaceService;
 
@@ -29,12 +32,16 @@ public class WorkspaceController {
 		} catch (Exception e) {e.printStackTrace(); return "redirect:/";}
 
 		model.addAttribute("workspace_id", id);
-		model.addAttribute("puzzleSet", service.getPuzzleSet(id));
+		model.addAttribute("savedState", service.getPuzzleSet(id));
 		return "main";
 	}
 	
 	@RequestMapping(value = "saveWorkspace", method = RequestMethod.POST)
-	public void saveWorkspace(@RequestParam("workspace_id")long id, @RequestParam("state")String state) {
+	public void saveWorkspace(@RequestParam("workspace_id")long id, @RequestParam("savedState")String state,
+			HttpServletResponse response) throws IOException {
+		System.out.println(id);
+		System.out.println(state);
 		service.updatePuzzleSet(id, state);
+		response.getWriter().println("fine");
 	}
 }

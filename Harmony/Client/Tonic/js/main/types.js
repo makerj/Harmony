@@ -29,17 +29,19 @@ var PuzzleBox = (function () {
             if (clearPuzzleBoxList) PUZZLE_BOX_LIST[jThiz.data('id')] = new _PuzzleBox();
             var thiz = PUZZLE_BOX_LIST[jThiz.data('id')];
 
+            jThiz.unbind(); // init() can be called multiple time. so clear all event listener first at every time for prevent resource leak
             jThiz.click(function () {
                 thiz.prototypeId = DEFINES.NOT_SET;
-                jThiz.text('');
+                jThiz.html('');
                 jThiz.attr('class', 'puzzleBox ui-droppable');
             });
             jThiz.droppable({
                 drop: function (event, ui) {
                     var helperDom = ui.helper[0];
                     thiz.prototypeId = helperDom.getAttribute('data-prototype-id');
-                    jThiz.text(helperDom.textContent);
+                    jThiz.html(helperDom.innerHTML);
                     jThiz.addClass('code'+helperDom.getAttribute('data-code'));
+                    $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON());
                 }
             });
         })
@@ -57,7 +59,7 @@ var PuzzleBox = (function () {
             if (prototypeID == DEFINES.NOT_SET) return;
             var relatedPrototypePuzzle = findRelatedPrototypePuzzle(prototypeID);
 
-            $(this).text(relatedPrototypePuzzle.text());
+            $(this).html(relatedPrototypePuzzle.html());
             $(this).attr('class', 'puzzleBox ui-droppable code'+relatedPrototypePuzzle.data('code'));
         });
     };

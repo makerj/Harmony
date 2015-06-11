@@ -15,104 +15,137 @@
 var Game = (function() {
     // Fields ------------------------------------------------------------------------
     var state = {
-        curPuzzleID: 0,
+        curPuzzleBoxIndex: 0,
         curPrototypeLastTop: 0,
-        curPrototypeLastLeft: 0
+        curPrototypeLastLeft: 0,
+        PLAYING: false
     };
-    var drawer = Drawer.instance();
 
     // Methods -----------------------------------------------------------------------
     var initPlayGround = function() {
-        $('.playground').click(function() {drawer.unbindPuzzle();});
+        PuzzleBox.init();
     };
     var initPlayBar = function() {
-        $('#skipBtn_backward').click(function() {
-
+        // Enable Audio end event chaining
+        $('audio').each(function () {
+            $(this)[0].addEventListener('ended', function () {
+                state.curPuzzleBoxIndex += 1;
+                playAudioAtLastPuzzle();
+            });
         });
+        // Backward Button
+        $('#skipBtn_backward').click(function() {
+            if (!state.PLAYING) return;
+            stopPlaying();
+            for (var back = state.curPuzzleBoxIndex-1 ; back >= 0 ; --back)
+                if (PuzzleBox.getPrototypeID(back) != -1)  {
+                    state.curPuzzleBoxIndex = back;
+                    break;
+                }
+
+            playAudioAtLastPuzzle();
+        });
+        // Play Button
         $('#playBtn').click(function() {
-            var playImg = "resources/img/main/playBtn.png", stopImg = "resources/img/main/stopBtn.png";
             // Play
-            if ($('#playBtn').attr("src") == playImg) {
-                $('#playBtn').attr("src", stopImg);
-                $('#audio1')[0].play(); // jQuery DOM wrapper doesn't support audio elements
+            if ($('#playBtn').attr("src") == DEFINES.playImg) {
+                $('#playBtn').attr("src", DEFINES.stopImg);
+                playAudioAtLastPuzzle();
             }
             // Stop
             else {
-                $('#playBtn').attr("src", playImg);
-                $('#audio1')[0].pause();
+                $('#playBtn').attr("src", DEFINES.playImg);
+                stopAndClearPlaying();
             }
         });
+        // Forward Button
         $('#skipBtn_forward').click(function() {
-
+            if (!state.PLAYING) return;
+            stopPlaying();
+            state.curPuzzleBoxIndex += 1;
+            playAudioAtLastPuzzle();
         });
     };
-    var setCurPuzzle = function (puzzleObj) {
-        state.curPuzzleID = puzzleObj.ID;
-        drawer.bindPuzzle(puzzleObj);
-    };
-    var spawnPrototypePuzzle = function() {
-        // 1. Generate prototype puzzle instance for each audio element
-        $("audio").each(function () {
-            var p = Puzzle.newPrototype($(this)[0], $(this).attr('code'));
-            drawer.registerPuzzle(p);
-            // TODO shuffle prototype puzzles at random offset
-            var pc = $('.puzzles_content');
-            p.DOMObject.style.top = (Math.random()*pc.height()*0.7 + Util.vh()*0.1) + 'px';
-            p.DOMObject.style.left = (Math.random()*pc.width()*0.7 + pc.offset().left) + 'px';
-
+    var initDrawer = function () {
+        // 1. Generate Prototype Puzzles
+        $('.prototypePuzzle').each(function () {
+            var jThiz = $(this);
+            // Makes the prototype puzzle click-able so that player can check which sound will be played
+            $(this).click(function () {
+                $('audio[data-prototype-id="'+jThiz.data('prototype-id')+'"]').clone()[0].play();
+            });
+            $(this).draggable({
+                containment: '.songContents, .playground',
+                helper: 'clone'
+            });
         });
-        // 2. Enable draggable
-        $('.puzzle_prototype').draggable({
-            start: function () {
-                state.curPrototypeLastTop = $(this).offset().top;
-                state.curPrototypeLastLeft = $(this).offset().left;
+    };
+    var initShareButton = function () {
+        $('#shareButton').click(function () {
+            saveStateToServer(true);
+        });
+    };
+    var loadWorkspace = function () {
+        var savedState = $('#savedState').val();
+        if (savedState != "") PuzzleBox.setPuzzleBoxListJSON(savedState);
+    };
+    // Misc
+    var saveStateToServer = function (isShare) {
+        $.ajax({
+            type: "POST",
+            url: "saveWorkspace",
+            data: (function () {
+                $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON());
+                return $('#ajaxData').serialize();
+            }()),
+            success: function(data) {
+                if (isShare) prompt('Copy this URL', "http://makerj.synology.me:8080/tonic/workspace?id="+$('#workspace_id').val());
             },
-            stop: function () {
-                // User want to use this prototype puzzle
-                if (Util.contains($('.playground'), $(this))) {
-                    // DO NOT drop current offset yet. offset will be used for new puzzle
-                    var offset = $(this).offset();
-
-                    // Restore prototype's initial position
-                    $(this).css({
-                        top: state.curPrototypeLastTop,
-                        left: state.curPrototypeLastLeft
-                    });
-
-                    // Add new puzzle at the playground
-                    Puzzle.fromPrototype(
-                        Puzzle.findPuzzleById($(this).attr('id')),
-                        offset,
-                        $('.playground')
-                    );
-                }
-                // Prototype still in the drawer
-                else {
-                    // I think we have nothing to do here
-                    // hmm... containment needed for each code section?
-                }
-
+            error: function(request) {
+                alert("Connecting failed. Check your internet connection");
             }
         });
     };
-
+    var stopAndClearPlaying = function () {
+        $('#playBtn').attr("src", DEFINES.playImg);
+        state.curPuzzleBoxIndex = 0;
+        state.PLAYING = false;
+        stopPlaying();
+    };
+    var stopPlaying = function () {
+        $('.spaceBoot').removeClass('spaceBoot');
+        $('audio').each(function () {
+            $(this)[0].pause();
+            $(this)[0].currentTime = 0;
+        });
+    };
+    var playAudioAtLastPuzzle = function () {
+        $('.spaceBoot').removeClass('spaceBoot');
+        state.PLAYING = true;
+        if (state.curPuzzleBoxIndex < 0 || state.curPuzzleBoxIndex >= DEFINES.PUZZLE_BOX_SIZE) {
+            stopAndClearPlaying();
+            return;
+        }
+        var audioID = PuzzleBox.getPrototypeID(state.curPuzzleBoxIndex);
+        if (audioID == -1) {
+            state.curPuzzleBoxIndex += 1;
+            playAudioAtLastPuzzle();
+        } else {
+            $('.puzzleBox[data-id="'+state.curPuzzleBoxIndex+'"]').addClass('spaceBoot');
+            $("audio[data-prototype-id='" + audioID + "']")[0].play();
+        }
+    };
+    // Publish public methods ---------------------------------------------------------
     var init = function() {
         console.log("Game::init Called");
         initPlayGround();
         initPlayBar();
-        spawnPrototypePuzzle();
-        drawer.unbindPuzzle(); // Set drawer context to puzzle selection mode
+        initDrawer();
+        initShareButton();
+        loadWorkspace();
     };
-
-    var isPlaying = function () {
-        return state.curPuzzleID != -1;
-    };
-
-    // Publish public methods ---------------------------------------------------------
     return {
-        init : init,
-        isPlaying : isPlaying,
-        setPuzzle: setCurPuzzle
+        init : init
     };
 }());
 console.log("<Game module initialized>");

@@ -1,10 +1,23 @@
+/**
+ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ Version 2, December 2004
+
+ Copyright (C) 2015 JunHui Lee <ohenwkgdj@gmail.com>
+
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+ 0. You just DO WHAT THE FUCK YOU WANT TO. */
 .root {
     position: fixed;
     width: 100vw;
     height: 100vh;
     left: 0;
     top: 0;
-    z-index: 10;
     background: rgba(128,128,128,0.5);
 }
 
@@ -30,16 +43,29 @@ white rgba(255,255,255,0.95);
     width: 100vw;
     height: 85vh;
 }
+
 .playground {
     float: left;
     width: 80%;
     height: 100%;
+    overflow-y: auto;
+}
+
+.puzzleBoxWrap {
+    width: 40vw;
+    height: 40vw;
+    top: 1vw;
+    left: 20vw;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .drawer {
     float: right;
     width: 20%;
     height: 100%;
+    margin: 0;
+    padding: 0;
     background: rgba(255,255,255,0.95);
     overflow-x: hidden;
     overflow-y: auto;
@@ -47,42 +73,14 @@ white rgba(255,255,255,0.95);
     box-shadow: -1vw 0 2vw -1vw black; /*h-off v-off blurDist spreadDist color [inset]*/
 }
 
-.properties_title {
-    width: 100%;
-    height: 5vh;
-    padding-left: 0.5vw;
-    color: ghostwhite;
-    background: rgba(217,114,23,0.95);
-    box-shadow: 0 -0.5vh 0 0 rgba(0,0,0,0.1) inset; /*h-off v-off blurDist spreadDist color [inset]*/
+.songContents {
+    margin: 0 auto;
+    text-align: center;
 }
 
-.properties_content {
-    width: 100%;
-    height: 80vh;
-    padding-left: 1vw;
-    background: ghostwhite;
-    color: rgba(0,0,0,0.5);
-}
-.properties_content >input {
-    margin-left: 5%;
-    width: 70%;
-}
-
-.puzzles_title {
-    width: 100%;
-    height: 5vh;
-    padding-left: 0.5vw;
-    color: ghostwhite;
-    background: rgba(217,114,23,0.95);
-    box-shadow: 0 -0.5vh 0 0 rgba(0,0,0,0.1) inset; /*h-off v-off blurDist spreadDist color [inset]*/
-}
-
-.puzzles_content {
-    width: 100%;
-    height: 80vh;
-    padding-left: 1vw;
-    background: ghostwhite;
-    color: rgba(0,0,0,0.5);
+.songTitle {
+    background-color: rgba(217,114,23,0.95);;
+    color: white;
 }
 
 .playBar {
