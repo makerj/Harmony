@@ -34,6 +34,9 @@ var PuzzleBox = (function () {
                 thiz.prototypeId = DEFINES.NOT_SET;
                 jThiz.html('');
                 jThiz.attr('class', 'puzzleBox ui-droppable');
+                // After works
+                $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
+                Score.updateScore(PUZZLE_BOX_LIST); // update score
             });
             jThiz.droppable({
                 drop: function (event, ui) {

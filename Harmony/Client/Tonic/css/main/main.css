@@ -57,11 +57,11 @@ white rgba(255,255,255,0.95);
     background: rgba(218,33,44,0.95);
     box-shadow: 0 -0.5vh 0 0 rgba(0,0,0,0.1) inset; /*h-off v-off blurDist spreadDist color [inset]*/
 }
-.scoreContainer>.scoreTitle {
+.scoreTitle {
     width: 100%;
     text-align: center;
 }
-.scoreContainer>.scoreNumber{
+.scoreNumber{
     width: 100%;
     text-align: center;
     overflow: hidden;

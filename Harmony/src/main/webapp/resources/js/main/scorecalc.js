@@ -77,6 +77,7 @@ var Score = (function () {
 
 	var updateView = function () {
 		scoreJDOM.html(score);
+		scoreJDOM.effect('bounce');
 	};
 
 	return {
