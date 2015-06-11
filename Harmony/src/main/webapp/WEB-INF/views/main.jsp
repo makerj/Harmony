@@ -28,6 +28,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/img/favicon.ico"/>
     <title>Harmony #${workspace_id}</title>
     <!-- CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main/font.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main/common.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main/main.css"/>
@@ -35,7 +36,12 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 </head>
 <body>
 <div class="root">
-    <div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p> <div style="float: right"><input id="shareButton" type="button" value="Save&amp;Share"> </div></div>
+	<div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p></div>
+    <div id="shareButton" class="share fontSize3"><i class="fa fa-pulse fa-share"></i>Share</div>
+    <div class="scoreContainer">
+        <div class="scoreTitle fontSize2">Score</div>
+        <div id="score" class="scoreNumber fontSize4">0</div>
+    </div>
     <div class="center">
 		<div class="playground">
             <div class="puzzleBoxWrap">

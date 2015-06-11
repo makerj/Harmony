@@ -39,6 +39,35 @@ white rgba(255,255,255,0.95);
     box-shadow: 0 -0.5vh 0 0 rgba(0,0,0,0.1) inset; /*h-off v-off blurDist spreadDist color [inset]*/
 }
 
+.share {
+    position: fixed;
+    color: white;
+    top: 0.1vh;
+    left: 80vw;
+}
+.scoreContainer {
+    position: fixed;
+    top: 3vh;
+    left: 65vw;
+    width: 15vw;
+    height: 10vh;
+    z-index: 99;
+    color: rgba(255,255,255,0.95);
+    background: rgba(218,33,44,0.95);
+    box-shadow: 0 -0.5vh 0 0 rgba(0,0,0,0.1) inset; /*h-off v-off blurDist spreadDist color [inset]*/
+}
+.scoreContainer>.scoreTitle {
+    width: 100%;
+    text-align: center;
+}
+.scoreContainer>.scoreNumber{
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .center {
     width: 100vw;
     height: 85vh;
