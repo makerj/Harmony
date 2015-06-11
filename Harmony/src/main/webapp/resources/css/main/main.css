@@ -44,6 +44,7 @@ white rgba(255,255,255,0.95);
     color: white;
     top: 0.1vh;
     left: 80vw;
+    cursor: pointer;
 }
 .scoreContainer {
     position: fixed;

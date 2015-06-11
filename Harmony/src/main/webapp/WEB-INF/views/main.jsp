@@ -92,6 +92,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
 <script src="${pageContext.request.contextPath}/resources/js/defines.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/util.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/main/scorecalc.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main/types.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/main/game.js"></script>
 </body>

@@ -88,6 +88,7 @@ var Game = (function() {
     var loadWorkspace = function () {
         var savedState = $('#savedState').val();
         if (savedState != "") PuzzleBox.setPuzzleBoxListJSON(savedState);
+        Score.updateScore(PuzzleBox.getPuzzleBoxList());
     };
     // Misc
     var saveStateToServer = function (isShare) {

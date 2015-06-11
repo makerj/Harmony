@@ -41,7 +41,10 @@ var PuzzleBox = (function () {
                     thiz.prototypeId = helperDom.getAttribute('data-prototype-id');
                     jThiz.html(helperDom.innerHTML);
                     jThiz.addClass('code'+helperDom.getAttribute('data-code'));
-                    $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON());
+
+                    // After works
+                    $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
+                    Score.updateScore(PUZZLE_BOX_LIST); // update score
                 }
             });
         })
