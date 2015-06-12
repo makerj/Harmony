@@ -62,8 +62,8 @@
                         <div class="modal-body"> 
                             <form role="form" action="${pageContext.request.contextPath}/workspace" method="get"> 
                                 <div class="form-group"> 
-                                    <label class="control-label" for="workspace_id">Workspace ID 입력</label>                                     
-                                    <input type="text" class="form-control" name="workspace_id" placeholder="예: 1234">                                     
+                                    <label class="control-label" for="id">Workspace ID 입력</label>                                     
+                                    <input type="text" class="form-control" name="id" placeholder="예: 1234">                                     
                                 </div>
                                 <input type="submit" class="btn btn-success pull-right" value="불러오기">
                             	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>                                 
