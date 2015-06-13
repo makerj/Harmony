@@ -18,6 +18,6 @@ var DEFINES = {
     NOT_SET : -1,
 
     // Resources
-    playImg : "resources/img/main/playBtn.png",
-    stopImg : "resources/img/main/stopBtn.png"
+    playImg : "/tonic/resources/img/main/playBtn.png",
+    stopImg : "/tonic/resources/img/main/stopBtn.png"
 };
