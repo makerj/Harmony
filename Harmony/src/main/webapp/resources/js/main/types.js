@@ -36,7 +36,6 @@ var PuzzleBox = (function () {
                 jThiz.attr('class', 'puzzleBox ui-droppable');
                 // After works
                 $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
-                Score.updateScore(PUZZLE_BOX_LIST); // update score
             });
             jThiz.droppable({
                 drop: function (event, ui) {
@@ -45,9 +44,15 @@ var PuzzleBox = (function () {
                     jThiz.html(helperDom.innerHTML);
                     jThiz.addClass('code'+helperDom.getAttribute('data-code'));
 
+                    if (!checkChord() || !checkPitch()) {
+                        thiz.prototypeId = DEFINES.NOT_SET;
+                        jThiz.html('');
+                        jThiz.attr('class', 'puzzleBox ui-droppable');
+                        alert('올바르지 않은 조각입니다.');
+                    }
+
                     // After works
                     $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
-                    Score.updateScore(PUZZLE_BOX_LIST); // update score
                 }
             });
         })

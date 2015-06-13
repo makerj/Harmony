@@ -14,7 +14,7 @@
  0. You just DO WHAT THE FUCK YOU WANT TO. */
 var DEFINES = {
     // Constant values
-    PUZZLE_BOX_SIZE : 25,
+    PUZZLE_BOX_SIZE : 16,
     NOT_SET : -1,
 
     // Resources
