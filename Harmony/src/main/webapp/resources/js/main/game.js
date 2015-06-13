@@ -21,6 +21,8 @@ var Game = (function() {
         PLAYING: false
     };
 
+    var enableOverlappingPlayback = true;
+
     // Methods -----------------------------------------------------------------------
     var initPlayGround = function() {
         PuzzleBox.init();
@@ -28,10 +30,12 @@ var Game = (function() {
     var initPlayBar = function() {
         // Enable Audio end event chaining
         $('audio').each(function () {
-            $(this)[0].addEventListener('ended', function () {
-                state.curPuzzleBoxIndex += 1;
-                playAudioAtLastPuzzle();
-            });
+            if (!enableOverlappingPlayback) {
+                $(this)[0].addEventListener('ended', function () {
+                    state.curPuzzleBoxIndex += 1;
+                    playAudioAtLastPuzzle();
+                });
+            }
         });
         // Backward Button
         $('#skipBtn_backward').click(function() {
@@ -133,6 +137,11 @@ var Game = (function() {
         } else {
             $('.puzzleBox[data-id="'+state.curPuzzleBoxIndex+'"]').addClass('spaceBoot');
             $("audio[data-prototype-id='" + audioID + "']")[0].play();
+
+            if (enableOverlappingPlayback) {
+                state.curPuzzleBoxIndex += 1;
+                setTimeout(playAudioAtLastPuzzle, 1900);
+            }
         }
     };
     // Publish public methods ---------------------------------------------------------
