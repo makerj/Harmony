@@ -23,6 +23,28 @@ var PuzzleBox = (function () {
     var _PuzzleBox = function () {
         this.prototypeId = DEFINES.NOT_SET;
     };
+
+    function updateCandidateVisibilities() {
+        $('.prototypePuzzle').each(function () {
+            var $this = $(this);
+            var chord = $this.data('code');
+            var begin = $this.data('begin-note')|0;
+            var end = $this.data('end-note')|0;
+
+            var isVisible = checkChord(chord) && checkPitch([begin, end]);
+            if (isVisible) {
+                $this.show();
+            } else {
+                $this.hide();
+            }
+        });
+    }
+
+    function onPuzzleStateChange() {
+        $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
+        updateCandidateVisibilities();
+    }
+
     var init = function(clearPuzzleBoxList) {
         $('.puzzleBox').each(function () {
             var jThiz = $(this);
@@ -34,8 +56,8 @@ var PuzzleBox = (function () {
                 thiz.prototypeId = DEFINES.NOT_SET;
                 jThiz.html('');
                 jThiz.attr('class', 'puzzleBox ui-droppable');
-                // After works
-                $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
+
+                onPuzzleStateChange();
             });
             jThiz.droppable({
                 drop: function (event, ui) {
@@ -51,8 +73,7 @@ var PuzzleBox = (function () {
                         alert('올바르지 않은 조각입니다.');
                     }
 
-                    // After works
-                    $('#savedState').val(PuzzleBox.getPuzzleBoxListJSON()); // update box list state
+                    onPuzzleStateChange();
                 }
             });
         })

@@ -29,7 +29,7 @@ function checkChord(lastValue) {
 		chords.push(PuzzleBox.getCode(i));
 	}
 	if (lastValue !== undefined) {
-		chords.push(lastVal);
+		chords.push(lastValue);
 	}
 	var chordsStr = chords.join(',');
 	console.log(chordsStr);
