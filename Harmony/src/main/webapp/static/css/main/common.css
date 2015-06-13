@@ -12,12 +12,14 @@
  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
  0. You just DO WHAT THE FUCK YOU WANT TO. */
-var DEFINES = {
-    // Constant values
-    PUZZLE_BOX_SIZE : 25,
-    NOT_SET : -1,
+.clear {
+    clear: both;
+}
 
-    // Resources
-    playImg : "/tonic/resource/img/main/playBtn.png",
-    stopImg : "/tonic/resource/img/main/stopBtn.png"
-};
+label {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
