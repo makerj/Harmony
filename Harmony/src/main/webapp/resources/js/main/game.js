@@ -22,6 +22,7 @@ var Game = (function() {
     };
 
     var enableOverlappingPlayback = true;
+    var lastPlaybackTimerId = null;
 
     // Methods -----------------------------------------------------------------------
     var initPlayGround = function() {
@@ -122,6 +123,10 @@ var Game = (function() {
             $(this)[0].pause();
             $(this)[0].currentTime = 0;
         });
+        if (lastPlaybackTimerId) {
+            clearTimeout(lastPlaybackTimerId);
+            lastPlaybackTimerId = null;
+        }
     };
     var playAudioAtLastPuzzle = function () {
         $('.spaceBoot').removeClass('spaceBoot');
@@ -140,7 +145,7 @@ var Game = (function() {
 
             if (enableOverlappingPlayback) {
                 state.curPuzzleBoxIndex += 1;
-                setTimeout(playAudioAtLastPuzzle, 1900);
+                lastPlaybackTimerId = setTimeout(playAudioAtLastPuzzle, 1900);
             }
         }
     };
