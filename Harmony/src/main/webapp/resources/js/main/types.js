@@ -42,6 +42,9 @@ var PuzzleBox = (function () {
             var notes = getNotes($this.data('prototype-id')|0);
 
             var isVisible = checkChord(chord) && checkPitch([begin, end]) && checkNotes(notes);
+            if (notes < 3) {
+                isVisible = false;
+            }
             if (isVisible) {
                 $this.show();
             } else {
