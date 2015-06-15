@@ -43,7 +43,7 @@ white rgba(255,255,255,0.95);
     position: fixed;
     color: white;
     top: 0.1vh;
-    left: 80vw;
+    left: 60vw;
     cursor: pointer;
 }
 
@@ -62,8 +62,8 @@ white rgba(255,255,255,0.95);
 .puzzleBoxWrap {
     width: 40vw;
     height: 40vw;
-    top: 1vw;
-    left: 20vw;
+    top: 2vw;
+    left: 13vw;
     box-sizing: border-box;
     position: relative;
 }
