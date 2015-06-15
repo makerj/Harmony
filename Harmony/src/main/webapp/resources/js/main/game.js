@@ -126,7 +126,11 @@ var Game = (function() {
                 return $('#ajaxData').serialize();
             }()),
             success: function(data) {
-                if (isShare) prompt('Copy this URL', "http://makerj.synology.me:8080/tonic/workspace?id="+$('#workspace_id').val());
+                var url = "http://makerj.synology.me:8080/tonic/workspace?id="+$('#workspace_id').val();
+                if (isShare) prompt('Copy this URL', url);
+
+                var qrurl = 'https://chart.googleapis.com/chart?cht=qr&choe=UTF-8&chs=200x200&chl=' + encodeURIComponent(url);
+                window.open(qrurl);
             },
             error: function(request) {
                 alert("Connecting failed. Check your internet connection");
