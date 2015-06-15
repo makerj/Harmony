@@ -83,6 +83,7 @@ var Game = (function() {
                 containment: '.songContents, .playground',
                 helper: 'clone'
             });
+            jThiz.find('p').append('<br>길이:' + getNotes(jThiz.data('prototype-id')));
         });
     };
     var initShareButton = function () {

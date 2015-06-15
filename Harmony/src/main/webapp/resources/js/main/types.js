@@ -39,8 +39,9 @@ var PuzzleBox = (function () {
             var chord = $this.data('code');
             var begin = $this.data('begin-note')|0;
             var end = $this.data('end-note')|0;
+            var notes = getNotes($this.data('prototype-id')|0);
 
-            var isVisible = checkChord(chord) && checkPitch([begin, end]);
+            var isVisible = checkChord(chord) && checkPitch([begin, end]) && checkNotes(notes);
             if (isVisible) {
                 $this.show();
             } else {
@@ -75,7 +76,7 @@ var PuzzleBox = (function () {
                     jThiz.html(helperDom.innerHTML);
                     jThiz.addClass('code'+helperDom.getAttribute('data-code'));
 
-                    if (!checkChord() || !checkPitch()) {
+                    if (!checkChord() || !checkPitch() || !checkNotes()) {
                         thiz.prototypeId = DEFINES.NOT_SET;
                         jThiz.html('');
                         jThiz.attr('class', 'puzzleBox ui-droppable');
@@ -86,6 +87,7 @@ var PuzzleBox = (function () {
                 }
             });
         })
+        updateCandidateVisibilities();
     };
 
     var getPuzzleBoxList = function () {return PUZZLE_BOX_LIST;};

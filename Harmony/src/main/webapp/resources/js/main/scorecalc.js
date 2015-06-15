@@ -57,3 +57,29 @@ function checkChord(lastValue) {
 	return true;
 }
 
+function checkNotes(lastValue) {
+	var numNotesArr = [];
+	for (var i = 0 ; i < DEFINES.PUZZLE_BOX_SIZE ; ++i) {
+		if (PuzzleBox.getPrototypeID(i) == -1)
+			break;
+		numNotesArr.push(PuzzleBox.getNotes(i));
+	}
+	if (lastValue !== undefined) {
+		numNotesArr.push(lastValue);
+	}
+
+	for (var i = 0; i < numNotesArr.length; i++) {
+		if ((i + 1) % 4 === 0) {
+			if (numNotesArr[i] > 3) {
+				return false;
+			}
+		} else {
+			if (numNotesArr[i] < 3) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
