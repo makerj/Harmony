@@ -12,6 +12,23 @@
  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
  0. You just DO WHAT THE FUCK YOU WANT TO. */
+
+function translateNote(n) {
+    var noteNames = '도레미파솔라시';
+    n = (n - 24);
+    var octave = Math.floor(n / 7);
+    n += 700;
+    var s = noteNames[n % 7];
+    s = '<span style="font-size: 0.8em">' + s + '</span>';
+    if (octave !== 0) {
+        if (octave > 0) {
+            octave = '+' + octave;
+        }
+        s += '<span style="font-size: 0.6em">(' + octave + ')</span>';
+    }
+    return s;
+}
+
 var Game = (function() {
     // Fields ------------------------------------------------------------------------
     var state = {
@@ -83,7 +100,11 @@ var Game = (function() {
                 containment: '.songContents, .playground',
                 helper: 'clone'
             });
-            jThiz.find('p').append('<br>길이:' + getNotes(jThiz.data('prototype-id')));
+
+            var begin = jThiz.data('begin-note'), end = jThiz.data('end-note'), chord = jThiz.data('code'), notes = getNotes(jThiz.data('prototype-id'));
+            var s = chord + '코드<br/>' + translateNote(begin) + ' -> ' + translateNote(end);
+            //s += '<br/>(길이: ' + notes + ')';
+            jThiz.find('p').html(s);
         });
     };
     var initShareButton = function () {
