@@ -87,6 +87,7 @@ white rgba(255,255,255,0.95);
 }
 
 .songTitle {
+    display: none;
     background-color: rgba(217,114,23,0.95);;
     color: white;
 }
