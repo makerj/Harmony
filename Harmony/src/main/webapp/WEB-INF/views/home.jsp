@@ -77,7 +77,7 @@
         </div>
         <div id="footer">
             <div class="container">
-                <p class="text-muted">Copyright 2015 Team Tonic (황보성우, 이준희, 심민찬)</p>
+                <p class="text-muted">Copyright 2015 Team Tonic (황보성우, 이준희, 심민찬, 박정민)</p>
             </div>
         </div>
         <!-- Bootstrap core JavaScript
