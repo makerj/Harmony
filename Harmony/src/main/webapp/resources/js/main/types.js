@@ -13,6 +13,15 @@
 
  0. You just DO WHAT THE FUCK YOU WANT TO. */
 
+
+function getNotes(id) {
+    var fn = $('audio[data-prototype-id='+id+']')[0].src.split('/');
+    fn = fn[fn.length - 1];
+    var attrs = /.*?_([a-zA-Z])_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+).mp3$/.exec(fn);
+    // 1,2,3,4,5= 코드,시작,끝,음표수,id
+    return attrs[4];
+}
+
 /**
  * Class Puzzle. implementation of puzzle
  * Provides newPrototype(audioObject, code), fromPrototype(puzzleObj) public static methods */
@@ -109,6 +118,9 @@ var PuzzleBox = (function () {
         },
         getEndNote: function (listIndex) {
             return findRelatedPrototypePuzzle(PUZZLE_BOX_LIST[listIndex].prototypeId).data('end-note');
+        },
+        getNotes: function (listIndex) {
+            return getNotes(PUZZLE_BOX_LIST[listIndex].prototypeId);
         },
         getPrototypeID: function (listIndex) {
             return PUZZLE_BOX_LIST[listIndex].prototypeId;
