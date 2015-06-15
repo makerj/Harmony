@@ -50,12 +50,12 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
         <div id="drawer" class="drawer fontSize3 bold ">
             <div id="puzzles">
-            <%for (String e : Puzzles.generateDefaultPuzzleTitles()) {%>
+            <%for (String e : Puzzles.generateDefaultPuzzleChords()) {%>
             	<div data-song-title="<%=e%>" class="songContainer">
-        			<div class="songTitle"><%=e%></div>
+        			<div class="songTitle"><%=e%> 코드</div>
         			<div class="songContents">
         			<%for (Puzzle p : Puzzles.generateDefaultPuzzle()) {
-        				if (p.getSongTitle().equals(e)) {%>
+        				if (p.getCode().equals(e)) {%>
         				<div class="prototypePuzzle code<%=p.getCode()%>" data-prototype-id="<%=p.getPrototypeId()%>" data-code="<%=p.getCode()%>" data-begin-note="<%=p.getBeginNote()%>" data-end-note="<%=p.getEndNote()%>"><p class="fontSize3">BEG:<%=p.getBeginNote()%><br>END:<%=p.getEndNote()%></p></div>
         			<%}}%>
         			</div>

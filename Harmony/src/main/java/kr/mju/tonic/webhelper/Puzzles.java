@@ -30,4 +30,12 @@ public class Puzzles {
 			ts.add(e.getSongTitle());
 		return ts.toArray(new String[ts.size()]);
 	}
+	
+	public static String[] generateDefaultPuzzleChords() {
+		List<Puzzle> ps = generateDefaultPuzzle();
+		Set<String> ts = new HashSet<String>();
+		for (Puzzle e : ps)
+			ts.add(e.getCode());
+		return ts.toArray(new String[ts.size()]);
+	}
 }
