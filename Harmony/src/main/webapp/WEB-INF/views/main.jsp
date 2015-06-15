@@ -38,14 +38,10 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 <div class="root">
 	<div class="title fontSize3 bold"><p style="display: inline;">Harmony project #${workspace_id}</p></div>
     <div id="shareButton" class="share fontSize3"><i class="fa fa-pulse fa-share"></i>Share</div>
-    <div class="scoreContainer">
-        <div class="scoreTitle fontSize2">Score</div>
-        <div id="score" class="scoreNumber fontSize4">0</div>
-    </div>
     <div class="center">
 		<div class="playground">
             <div class="puzzleBoxWrap">
-            <%for (int i = 0; i < 25; ++i) {%>
+            <%for (int i = 0; i < 16; ++i) {%>
                 <div class="puzzleBox" data-id="<%=i%>"></div>
             <%}%>
                 <div class="clear"></div>
