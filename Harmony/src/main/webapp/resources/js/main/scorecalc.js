@@ -34,7 +34,12 @@ function checkChord(lastValue) {
 	var chordsStr = chords.join(',');
 	console.log(chordsStr);
 
-	var re = /,?((C,[DFGA])|(F,[GDC])|(G,[CF])|(D,G)|(A,[DFG])|C,C|F,F|G,G),?/g;
+	if (/([A-Za-z]+),\1/.exec(chordsStr)) {
+		// 중복 코드 막기
+		return false;
+	}
+
+	var re = /,?((C,[DFGA])|(F,[GDC])|(G,[CF])|(D,G)|(A,[DFG])),?/g;
 	var pos = 0;
 	while (pos < chordsStr.length) {
 		var res = re.exec(chordsStr);
