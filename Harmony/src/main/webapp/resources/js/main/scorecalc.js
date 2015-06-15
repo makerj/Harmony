@@ -52,11 +52,6 @@ function checkChord(lastValue) {
 		pos += res[0].length;
 	}
 
-	// 각 마디의 시작음은 C코드로 시작되어야 함
-	if (chords.length > 0 && chords[0] !== 'C') {
-		return false;
-	}
-
 	if (chords.length === DEFINES.PUZZLE_BOX_SIZE) {
 		if (chords[chords.length - 1] !== 'C') {
 			// 마지막 조각일 경우 무조건 C 화음으로 종료되어야 함
