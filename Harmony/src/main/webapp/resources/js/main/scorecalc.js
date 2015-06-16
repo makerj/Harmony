@@ -54,6 +54,12 @@ function checkChord(lastValue) {
 					return false;
 				}
 			}
+			// 4번째 줄은 2,4번째 줄의 3번째 마디도 동일해야 함
+			if (i === 14) {
+				if (chords[i] !== chords[4]) {
+					return false;
+				}
+			}
 		}
 	}
 
