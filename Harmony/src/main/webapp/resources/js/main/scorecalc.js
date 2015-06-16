@@ -41,6 +41,22 @@ function checkChord(lastValue) {
 		}
 	}
 
+	for (var i = 0; i < chords.length; i++) {
+		// 1,2,4번째 줄의 첫 두 마디의 코드가 동일한지 체크
+		if (0) {
+			if (i === 4 || i === 12) {
+				if (chords[i] !== chords[0]) {
+					return false;
+				}
+			}
+			if (i === 5 || i === 13) {
+				if (chords[i] !== chords[1]) {
+					return false;
+				}
+			}
+		}
+	}
+
 	var re = /,?((C,[DFGA])|(F,[GDC])|(G,[CF])|(D,G)|(A,[DFG])),?/g;
 	var pos = 0;
 	while (pos < chordsStr.length) {
