@@ -2,22 +2,17 @@ package kr.mju.tonic.webhelper;
 
 import java.io.File;
 import java.util.StringTokenizer;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Puzzle {
-	private static final AtomicInteger prototypeIDSeeder = new AtomicInteger(0);
-	
 	private String songTitle;
 	private String audioFileURL;
 	private String code;
 	private int beginNote;
 	private int endNote;
+	private int noteCount;
 	private int prototypeId;
 	
 	public Puzzle(File e) {
-		if (!e.getName().matches(".+_.+_.+_.+_.+\\.(?i)(mp3|midi|wav|ogg)"))
-			throw new IllegalArgumentException("Audio file has illegal name: " + e.getName());
-		
 		StringTokenizer tok = new StringTokenizer(e.getName(), "_");
 		
 		songTitle = tok.nextToken();
@@ -25,7 +20,10 @@ public class Puzzle {
 		code = tok.nextToken();
 		beginNote = Integer.parseInt(tok.nextToken());
 		endNote = Integer.parseInt(tok.nextToken());
-		prototypeId = prototypeIDSeeder.getAndIncrement();
+		setNoteCount(Integer.parseInt(tok.nextToken()));
+		
+		String pIdToken = tok.nextToken();
+		prototypeId = Integer.parseInt(pIdToken.substring(0, pIdToken.lastIndexOf(".")));
 	}
 
 	public String getAudioFileURL() {
@@ -74,5 +72,13 @@ public class Puzzle {
 
 	public void setSongTitle(String songTitle) {
 		this.songTitle = songTitle;
+	}
+
+	public int getNoteCount() {
+		return noteCount;
+	}
+
+	public void setNoteCount(int noteCount) {
+		this.noteCount = noteCount;
 	}
 }
