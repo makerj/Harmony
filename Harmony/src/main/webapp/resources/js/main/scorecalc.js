@@ -32,11 +32,9 @@ function checkChord(lastValue) {
 		chords.push(lastValue);
 	}
 	var chordsStr = chords.join(',');
-	console.log(chordsStr);
 
 	for (var i = 0; i < DEFINES.PUZZLE_BOX_SIZE; i += 4) {
 		var tempChordsStr = chords.slice(i, i + 4).join(',');
-		console.log('check line'+i+' '+tempChordsStr);
 		if (/([A-Za-z]+),\1/.exec(tempChordsStr)) {
 			// 중복 코드 막기
 			return false;
